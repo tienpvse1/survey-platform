@@ -166,7 +166,8 @@ CREATE TABLE public.survey (
     created_at timestamp with time zone DEFAULT '2023-10-16 03:11:48.120541+00'::timestamp with time zone,
     updated_at timestamp with time zone,
     name text DEFAULT ''::text NOT NULL,
-    description text
+    description text,
+    created_by_id uuid NOT NULL
 );
 
 
@@ -300,6 +301,14 @@ CREATE TRIGGER assign_user_update_date BEFORE UPDATE ON public."user" FOR EACH R
 
 
 --
+-- Name: survey creator_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.survey
+    ADD CONSTRAINT creator_fk FOREIGN KEY (created_by_id) REFERENCES public."user"(id);
+
+
+--
 -- Name: survey_question question_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -353,4 +362,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20231013022323'),
     ('20231013024851'),
     ('20231013030811'),
-    ('20231016040402');
+    ('20231016040402'),
+    ('20231020024855');

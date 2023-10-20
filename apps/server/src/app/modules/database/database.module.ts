@@ -12,6 +12,7 @@ export type DatabaseConfig = {
 @Module({})
 export class DatabaseModule {
   static KYSELY = 'kysely instance';
+  static DbInstance: Kysely<DB>;
   static forRoot(config: DatabaseConfig): DynamicModule {
     const dialect = new PostgresDialect({
       pool: new Pool({
@@ -24,7 +25,12 @@ export class DatabaseModule {
         max: 10,
       }),
     });
-    const db = new Kysely<DB>({ dialect, plugins: [new CamelCasePlugin()] });
+    const db = new Kysely<DB>({
+      dialect,
+      plugins: [new CamelCasePlugin()],
+      log: ['error', 'query'],
+    });
+    DatabaseModule.DbInstance = db;
     const service = { provide: DatabaseModule.KYSELY, useValue: db };
     return {
       module: DatabaseModule,
@@ -32,6 +38,9 @@ export class DatabaseModule {
       exports: [service],
       global: true,
     };
+  }
+  public static getDbInstance() {
+    return DatabaseModule.DbInstance;
   }
 }
 

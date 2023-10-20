@@ -1,7 +1,8 @@
 import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { UUID } from '../../../scalars';
 
-@ObjectType('SurveyEntity')
-export class SurveyEntity {
+@ObjectType('Survey')
+export class Survey {
   @Field(() => ID)
   id: string;
   @Field(() => GraphQLISODateTime)
@@ -12,6 +13,8 @@ export class SurveyEntity {
   name: string;
   @Field(() => String, { nullable: true })
   description: string;
+  @Field(() => UUID)
+  createdById: string;
 }
 
 @ObjectType('CreatedSurvey')

@@ -1,7 +1,18 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, GraphQLISODateTime, ObjectType } from '@nestjs/graphql';
+import { Email, JSONType, UUID } from '../../../scalars';
 
 @ObjectType()
 export class User {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field(() => UUID)
+  id: string;
+  @Field(() => GraphQLISODateTime)
+  createdAt: Date | string;
+  @Field(() => GraphQLISODateTime)
+  updatedAt: Date | string;
+  @Field()
+  name: string;
+  @Field(() => Email)
+  email: string;
+  @Field(() => JSONType)
+  customData: unknown;
 }

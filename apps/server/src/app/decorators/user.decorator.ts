@@ -6,7 +6,6 @@ import { User as UserEntity } from 'kysely-codegen';
 export const User = createParamDecorator(
   (key: keyof UserEntity, context: ExecutionContext) => {
     const request: Request = getGraphqlContext(context).req;
-
     const { user } = request;
     return key ? user[key] : user;
   }
